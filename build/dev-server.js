@@ -4,7 +4,6 @@ var config = require('../config')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
-
 var opn = require('opn')
 var path = require('path')
 var express = require('express')
@@ -38,15 +37,16 @@ compiler.plugin('compilation', function (compilation) {
     cb()
   })
 })
-
+//代理
+app.use('/bgs', proxyMiddleware({target: 'https://mainsite-restapi.ele.me', changeOrigin: true}));
 // proxy api requests
-Object.keys(proxyTable).forEach(function (context) {
-  var options = proxyTable[context]
-  if (typeof options === 'string') {
-    options = { target: options }
-  }
-  app.use(proxyMiddleware(options.filter || context, options))
-})
+// Object.keys(proxyTable).forEach(function (context) {
+//   var options = proxyTable[context]
+//   if (typeof options === 'string') {
+//     options = { target: options }
+//   }
+//   app.use(proxyMiddleware(options.filter || context, options))
+// })
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')())
@@ -67,6 +67,7 @@ var uri = 'http://localhost:' + port
 devMiddleware.waitUntilValid(function () {
   console.log('> Listening at ' + uri + '\n')
 })
+
 
 module.exports = app.listen(port, function (err) {
   if (err) {

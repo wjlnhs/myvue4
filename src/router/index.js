@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from 'components/Hello'
-const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite')
+const mysite = r => require.ensure([], () => r(require('../page/mysite/mysite')), 'mysite')
 Vue.use(Router)
 
 export default new Router({
@@ -12,8 +12,8 @@ export default new Router({
       component: Hello
     },
     {
-      path: '/msite',
-      component: msite,
+      path: '/mysite',
+      component: mysite,
     }
   ]
 })
